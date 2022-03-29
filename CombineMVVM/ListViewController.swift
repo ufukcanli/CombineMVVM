@@ -69,7 +69,7 @@ extension ListViewController: UITableViewDelegate {
 // MARK: - Actions
 extension ListViewController {
     
-    @objc func didTapNetworkButton(_ button: UIBarButtonItem) {
+    @objc func didTapRefresh(_ button: UIBarButtonItem) {
         viewModel.fetch()
     }
 }
@@ -101,9 +101,9 @@ private extension ListViewController {
     func configureNavigationBar() {
         title = viewModel.title
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .add,
+            barButtonSystemItem: .refresh,
             target: self,
-            action: #selector(didTapNetworkButton)
+            action: #selector(didTapRefresh)
         )
         navigationController?.navigationBar.prefersLargeTitles = true
     }
