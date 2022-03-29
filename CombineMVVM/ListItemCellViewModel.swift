@@ -9,7 +9,7 @@ import Combine
 
 final class ListItemCellViewModel {
     
-    var actionPublisher = PassthroughSubject<Animal, Never>()
+    var actionPublisher = PassthroughSubject<String, Never>()
     
     private let animal: Animal
     
@@ -26,7 +26,6 @@ final class ListItemCellViewModel {
     }
 
     func sendEmoji() {
-        actionPublisher.send(animal)
-        debugPrint(#function)
+        actionPublisher.send(animalEmoji)
     }
 }

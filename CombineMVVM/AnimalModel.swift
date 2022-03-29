@@ -1,5 +1,5 @@
 //
-//  Animal.swift
+//  AnimalModel.swift
 //  CombineMVVM
 //
 //  Created by Ufuk Canlı on 29.03.2022.
