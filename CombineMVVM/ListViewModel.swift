@@ -11,7 +11,7 @@ final class ListViewModel: ObservableObject {
     
     let title = "Animals"
     
-    let objectWillChange = PassthroughSubject<Void, Never>()
+    let animalListPublisher = PassthroughSubject<Void, Never>()
 
     private(set) var animals: [Animal] = []
         
@@ -23,7 +23,7 @@ final class ListViewModel: ObservableObject {
             switch result {
             case .success(let animals):
                 self.animals = animals
-                self.objectWillChange.send()
+                self.animalListPublisher.send()
                 
             case .failure(let error):
                 print(error.localizedDescription)

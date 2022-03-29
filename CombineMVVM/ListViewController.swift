@@ -45,7 +45,7 @@ extension ListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ListItemCell.reuseIdentifier, for: indexPath) as! ListItemCell
         cell.populateCell(with: ListItemCellViewModel(animal: viewModel.animals[indexPath.row]))
-        cell.viewModel.actionPublisher.sink { [weak self] emoji in
+        cell.viewModel.emojiPublisher.sink { [weak self] emoji in
             guard let self = self else { return }
             AlertManager.showAlert(with: emoji, in: self)
         }
@@ -80,11 +80,13 @@ private extension ListViewController {
     
     func bindViewModel() {
 //        viewModel.$animals
-//            .sink { animals in
-//                print(animals)
+//            .receive(on: DispatchQueue.main)
+//            .sink { [weak self] _ in
+//                guard let self = self else { return }
+//                self.tableView.reloadData()
 //            }
 //            .store(in: &cancellables)
-        viewModel.objectWillChange
+        viewModel.animalListPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let self = self else { return }
