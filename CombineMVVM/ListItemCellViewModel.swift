@@ -9,23 +9,23 @@ import Combine
 
 final class ListItemCellViewModel {
     
-    let emojiPublisher = PassthroughSubject<String, Never>()
+    let emailPublisher = PassthroughSubject<String, Never>()
     
-    private let animal: Animal
+    private let comment: Comment
     
-    init(animal: Animal) {
-        self.animal = animal
+    init(comment: Comment) {
+        self.comment = comment
     }
     
-    var animalName: String {
-        return animal.name
+    var commentName: String {
+        return comment.name
     }
     
-    var animalEmoji: String {
-        return animal.emoji
+    var commentEmail: String {
+        return comment.email
     }
-
-    func sendEmoji() {
-        emojiPublisher.send(animalEmoji)
+    
+    func sendEmailAddress() {
+        emailPublisher.send(commentEmail)
     }
 }

@@ -11,6 +11,7 @@ import Combine
 final class ListViewController: UIViewController {
     
     private lazy var tableView = UITableView(frame: .zero, style: .insetGrouped)
+    private lazy var loadingView = UIActivityIndicatorView(style: .large)
     
     private var cancellables: Set<AnyCancellable> = []
 
@@ -31,6 +32,13 @@ final class ListViewController: UIViewController {
         bindViewModel()
         configureNavigationBar()
         configureTableView()
+        configureLoadingView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        viewModel.fetch()
     }
 }
 
@@ -39,15 +47,15 @@ final class ListViewController: UIViewController {
 extension ListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.animals.count
+        return viewModel.comments.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ListItemCell.reuseIdentifier, for: indexPath) as! ListItemCell
-        cell.populateCell(with: ListItemCellViewModel(animal: viewModel.animals[indexPath.row]))
-        cell.viewModel.emojiPublisher.sink { [weak self] emoji in
+        cell.populateCell(with: ListItemCellViewModel(comment: viewModel.comments[indexPath.row]))
+        cell.viewModel.emailPublisher.sink { [weak self] email in
             guard let self = self else { return }
-            AlertManager.showAlert(with: emoji, in: self)
+            AlertManager.showAlert(with: email, in: self)
         }
         .store(in: &cancellables)
         return cell
@@ -59,7 +67,7 @@ extension ListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) as? ListItemCell {
-            cell.viewModel.sendEmoji()
+            cell.viewModel.sendEmailAddress()
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -79,18 +87,43 @@ extension ListViewController {
 private extension ListViewController {
     
     func bindViewModel() {
-//        viewModel.$animals
+//        viewModel.$comments
 //            .receive(on: DispatchQueue.main)
 //            .sink { [weak self] _ in
 //                guard let self = self else { return }
 //                self.tableView.reloadData()
 //            }
 //            .store(in: &cancellables)
-        viewModel.animalListPublisher
+//
+//        viewModel.$isLoading
+//            .receive(on: DispatchQueue.main)
+//            .sink { [weak self] isLoading in
+//                guard let self = self else { return }
+//                if isLoading {
+//                    self.loadingView.isHidden = false
+//                } else {
+//                    self.loadingView.isHidden = true
+//                }
+//            }
+//            .store(in: &cancellables)
+        
+        viewModel.commentListPublisher
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
+            .sink { [weak self] in
                 guard let self = self else { return }
                 self.tableView.reloadData()
+            }
+            .store(in: &cancellables)
+        
+        viewModel.loadingStatePublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isLoading in
+                guard let self = self else { return }
+                if isLoading {
+                    self.loadingView.isHidden = false
+                } else {
+                    self.loadingView.isHidden = true
+                }
             }
             .store(in: &cancellables)
     }
@@ -110,6 +143,19 @@ private extension ListViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
+    func configureLoadingView() {
+        view.addSubview(loadingView)
+        
+        loadingView.isHidden = true
+        loadingView.startAnimating()
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            loadingView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            loadingView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+    }
+    
     func configureTableView() {
         view.addSubview(tableView)
         
@@ -122,7 +168,6 @@ private extension ListViewController {
         )
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.separatorStyle = .singleLine
         tableView.rowHeight = 52.0
         
         NSLayoutConstraint.activate([

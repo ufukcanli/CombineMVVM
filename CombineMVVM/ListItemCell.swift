@@ -12,7 +12,6 @@ final class ListItemCell: UITableViewCell {
     static let reuseIdentifier = String(describing: self)
 
     private lazy var nameLabel = UILabel()
-    lazy var showButton = UIButton()
     
     var viewModel: ListItemCellViewModel!
     
@@ -28,7 +27,7 @@ final class ListItemCell: UITableViewCell {
     
     func populateCell(with viewModel: ListItemCellViewModel) {
         self.viewModel = viewModel
-        nameLabel.text = viewModel.animalName
+        nameLabel.text = viewModel.commentName
     }
 }
 
@@ -38,8 +37,8 @@ private extension ListItemCell {
     
     func configureCell() {
         preservesSuperviewLayoutMargins = false
-        separatorInset = UIEdgeInsets.zero
-        layoutMargins = UIEdgeInsets.zero
+        separatorInset = .zero
+        layoutMargins = .zero
         
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(nameLabel)

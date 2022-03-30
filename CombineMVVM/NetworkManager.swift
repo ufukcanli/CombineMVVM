@@ -8,8 +8,16 @@
 import Foundation
 
 enum NetworkManager {
-    static func getAnimals(completion: @escaping (Result<[Animal], Error>) -> Void) {
-        let animals: [Animal] = [.dog, .cat, .frog, .panda, .lion]
-        completion(.success(animals))
+    static func getComments(by id: Int, completion: @escaping (Result<[Comment], Error>) -> Void) {
+        let endpoint = "https://jsonplaceholder.typicode.com/posts/\(id)/comments"
+        URLSession.shared.dataTask(with: URL(string: endpoint)!) { data, response, error in
+            do {
+                let decoder = JSONDecoder()
+                let comments = try decoder.decode([Comment].self, from: data!)
+                completion(.success(comments))
+            } catch {
+                completion(.failure(error))
+            }
+        }.resume()
     }
 }

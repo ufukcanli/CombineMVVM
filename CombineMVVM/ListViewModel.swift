@@ -9,24 +9,49 @@ import Combine
 
 final class ListViewModel: ObservableObject {
     
-    let title = "Animals"
+    let title = "Comments"
     
-    let animalListPublisher = PassthroughSubject<Void, Never>()
-
-    private(set) var animals: [Animal] = []
+    let commentListPublisher = PassthroughSubject<Void, Never>()
+    private(set) var comments: [Comment] = []
+    
+    let loadingStatePublisher = PassthroughSubject<Bool, Never>()
+    private(set) var isLoading: Bool = false
         
-//    @Published private(set) var animals: [Animal] = []
+//    @Published private(set) var comments: [Comment] = []
+//    @Published private(set) var isLoading: Bool = false
+//
+//    func fetch() {
+//        isLoading = true
+//        let randomInt = Int.random(in: 0..<100)
+//        NetworkManager.getComments(by: randomInt) { [weak self] result in
+//            guard let self = self else { return }
+//            switch result {
+//            case .success(let comments):
+//                self.comments = comments
+//                self.isLoading = false
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//                self.isLoading = false
+//            }
+//        }
+//    }
     
     func fetch() {
-        NetworkManager.getAnimals { [weak self] result in
+        isLoading = true
+        loadingStatePublisher.send(true)
+        let randomInt = Int.random(in: 0..<100)
+        NetworkManager.getComments(by: randomInt) { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .success(let animals):
-                self.animals = animals
-                self.animalListPublisher.send()
-                
+            case .success(let comments):
+                self.comments = comments
+                self.commentListPublisher.send()
+                self.isLoading = false
+                self.loadingStatePublisher.send(false)
             case .failure(let error):
                 print(error.localizedDescription)
+                self.isLoading = false
+                self.loadingStatePublisher.send(false)
             }
         }
     }

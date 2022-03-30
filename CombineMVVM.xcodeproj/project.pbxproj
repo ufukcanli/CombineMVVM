@@ -14,9 +14,9 @@
 		D266247D27F3608A008C40CC /* ListItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D266247C27F3608A008C40CC /* ListItemCell.swift */; };
 		D266247F27F360A6008C40CC /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D266247E27F360A6008C40CC /* ListViewModel.swift */; };
 		D266248127F360CB008C40CC /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D266248027F360CB008C40CC /* NetworkManager.swift */; };
-		D266248327F360E3008C40CC /* AnimalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D266248227F360E3008C40CC /* AnimalModel.swift */; };
 		D266248527F3614A008C40CC /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D266248427F3614A008C40CC /* AlertManager.swift */; };
 		D266248727F364AA008C40CC /* ListItemCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D266248627F364AA008C40CC /* ListItemCellViewModel.swift */; };
+		D2C13C0C27F48545005A644F /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C13C0B27F48545005A644F /* CommentModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,9 +29,9 @@
 		D266247C27F3608A008C40CC /* ListItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemCell.swift; sourceTree = "<group>"; };
 		D266247E27F360A6008C40CC /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 		D266248027F360CB008C40CC /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
-		D266248227F360E3008C40CC /* AnimalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalModel.swift; sourceTree = "<group>"; };
 		D266248427F3614A008C40CC /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		D266248627F364AA008C40CC /* ListItemCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemCellViewModel.swift; sourceTree = "<group>"; };
+		D2C13C0B27F48545005A644F /* CommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				D266246827F3560D008C40CC /* AppDelegate.swift */,
-				D266248227F360E3008C40CC /* AnimalModel.swift */,
+				D2C13C0B27F48545005A644F /* CommentModel.swift */,
 				D266247E27F360A6008C40CC /* ListViewModel.swift */,
 				D266246C27F3560D008C40CC /* ListViewController.swift */,
 				D266248627F364AA008C40CC /* ListItemCellViewModel.swift */,
@@ -156,7 +156,7 @@
 				D266247D27F3608A008C40CC /* ListItemCell.swift in Sources */,
 				D266248727F364AA008C40CC /* ListItemCellViewModel.swift in Sources */,
 				D266248527F3614A008C40CC /* AlertManager.swift in Sources */,
-				D266248327F360E3008C40CC /* AnimalModel.swift in Sources */,
+				D2C13C0C27F48545005A644F /* CommentModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
