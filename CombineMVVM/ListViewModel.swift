@@ -14,7 +14,7 @@ final class ListViewModel: ObservableObject {
     let commentListPublisher = PassthroughSubject<Void, Never>()
     private(set) var comments: [Comment] = []
     
-    let loadingStatePublisher = PassthroughSubject<Bool, Never>()
+    let loadingStatePublisher = CurrentValueSubject<Bool, Never>(false)
     private(set) var isLoading: Bool = false
         
 //    @Published private(set) var comments: [Comment] = []
@@ -47,11 +47,11 @@ final class ListViewModel: ObservableObject {
                 self.comments = comments
                 self.commentListPublisher.send()
                 self.isLoading = false
-                self.loadingStatePublisher.send(false)
+                self.loadingStatePublisher.send(self.isLoading)
             case .failure(let error):
                 print(error.localizedDescription)
                 self.isLoading = false
-                self.loadingStatePublisher.send(false)
+                self.loadingStatePublisher.send(self.isLoading)
             }
         }
     }

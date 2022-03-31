@@ -35,11 +35,11 @@ final class ListViewController: UIViewController {
         configureLoadingView()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        viewModel.fetch()
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        
+//        viewModel.fetch()
+//    }
 }
 
 
