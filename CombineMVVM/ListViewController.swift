@@ -13,8 +13,6 @@ final class ListViewController: UIViewController {
     private lazy var tableView = UITableView(frame: .zero, style: .insetGrouped)
     private lazy var loadingView = UIActivityIndicatorView(style: .large)
     
-    private var cancellables: Set<AnyCancellable> = []
-
     private let viewModel: ListViewModel!
     
     init(viewModel: ListViewModel = ListViewModel()) {
@@ -34,12 +32,6 @@ final class ListViewController: UIViewController {
         configureTableView()
         configureLoadingView()
     }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        
-//        viewModel.fetch()
-//    }
 }
 
 
@@ -53,11 +45,6 @@ extension ListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ListItemCell.reuseIdentifier, for: indexPath) as! ListItemCell
         cell.populateCell(with: ListItemCellViewModel(comment: viewModel.comments[indexPath.row]))
-        cell.viewModel.emailPublisher.sink { [weak self] email in
-            guard let self = self else { return }
-            AlertManager.showAlert(with: email, in: self)
-        }
-        .store(in: &cancellables)
         return cell
     }
 }
@@ -66,9 +53,6 @@ extension ListViewController: UITableViewDataSource {
 extension ListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath) as? ListItemCell {
-            cell.viewModel.sendEmailAddress()
-        }
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
@@ -78,7 +62,7 @@ extension ListViewController: UITableViewDelegate {
 extension ListViewController {
     
     @objc func didTapRefresh(_ button: UIBarButtonItem) {
-        viewModel.fetch()
+        debugPrint(#function)
     }
 }
 
@@ -87,45 +71,7 @@ extension ListViewController {
 private extension ListViewController {
     
     func bindViewModel() {
-//        viewModel.$comments
-//            .receive(on: DispatchQueue.main)
-//            .sink { [weak self] _ in
-//                guard let self = self else { return }
-//                self.tableView.reloadData()
-//            }
-//            .store(in: &cancellables)
-//
-//        viewModel.$isLoading
-//            .receive(on: DispatchQueue.main)
-//            .sink { [weak self] isLoading in
-//                guard let self = self else { return }
-//                if isLoading {
-//                    self.loadingView.isHidden = false
-//                } else {
-//                    self.loadingView.isHidden = true
-//                }
-//            }
-//            .store(in: &cancellables)
-        
-        viewModel.commentListPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                guard let self = self else { return }
-                self.tableView.reloadData()
-            }
-            .store(in: &cancellables)
-        
-        viewModel.loadingStatePublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] isLoading in
-                guard let self = self else { return }
-                if isLoading {
-                    self.loadingView.isHidden = false
-                } else {
-                    self.loadingView.isHidden = true
-                }
-            }
-            .store(in: &cancellables)
+        debugPrint(#function)
     }
 }
 
@@ -147,7 +93,7 @@ private extension ListViewController {
         view.addSubview(loadingView)
         
         loadingView.isHidden = true
-        loadingView.startAnimating()
+//        loadingView.startAnimating()
         loadingView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
